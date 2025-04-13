@@ -1,0 +1,24 @@
+.container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.pageTitle {
+  text-align: center;
+  padding-bottom: 2rem;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 0 70px;
+  justify-items: start;
+}
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}

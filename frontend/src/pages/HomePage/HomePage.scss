@@ -1,0 +1,106 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  max-width: 1400px;
+  margin: 80px auto;
+  padding: 0 30px;
+
+  h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: clamp(14px, 2vw, 16px);
+    margin: 10px 0;
+    text-align: center;
+    line-height: 1.5;
+    max-width: 800px;
+  }
+
+  .where_cards-container,
+  .categories {
+    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .video-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0;
+    width: 100%;
+
+    video {
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+      border-radius: 8px;
+    }
+  }
+}
+
+// 🔹 Responsive adjustments
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  .where_cards-container,
+  .categories {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 40px auto;
+    padding: 0 15px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  p {
+    font-size: 14px;
+    max-width: 90%;
+  }
+
+  .where_cards-container,
+  .categories {
+    width: 100%;
+  }
+
+  .video-div {
+    margin: 20px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 13px;
+  }
+
+  .where_cards-container,
+  .categories {
+    gap: 10px;
+  }
+}

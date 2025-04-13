@@ -1,0 +1,17 @@
+.pagination-container {
+  display: flex;
+  margin-top: 80px;
+  width: 270px;
+  justify-content: space-evenly;
+}
+
+#pagination_btn {
+  border-radius: 30px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #e0dfdf;
+}
+
+#pagination_btn:hover {
+  background-color: rgb(178, 178, 178);
+}

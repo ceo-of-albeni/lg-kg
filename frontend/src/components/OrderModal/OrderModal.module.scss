@@ -1,0 +1,54 @@
+.modal {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 600px;
+  margin: 64px auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.closeButton {
+  position: absolute !important;
+  top: 5px;
+  right: 1px;
+  z-index: 10;
+}
+
+.showMoreBtn {
+  background-color: #f4f4f4 !important;
+  color: #b30021 !important;
+  font-weight: 500;
+  border-radius: 8px;
+  text-transform: none;
+  &:hover {
+    background-color: #ececec !important;
+  }
+}
+
+.extraInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.submitButton {
+  background-color: #b30021 !important;
+  color: #fff !important;
+  font-weight: 600;
+  margin-top: 20px;
+  padding: 12px;
+  text-transform: none;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: #8e002e !important;
+  }
+}

@@ -1,0 +1,88 @@
+.user-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+
+  h1 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
+
+  .user-info {
+    background-color: #f8f8f8;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+
+    p {
+      margin: 0.3rem 0;
+    }
+  }
+
+  .orders-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 0.75rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #eee;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    button {
+      margin-top: 4px;
+    }
+  }
+}
+
+.user-info input {
+  display: block;
+  margin: 6px 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 400px;
+}
+.submitButton {
+  background-color: #b30021 !important;
+  color: #fff !important;
+  font-weight: 600;
+  margin-top: 40px !important;
+  padding: 12px;
+  text-transform: none !important;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: #8e002e !important;
+  }
+}
+
+.see_btn {
+  border: 1px solid #b30021 !important;
+  color: #b30021 !important;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #b30021;
+    color: white !important;
+  }
+}

@@ -1,0 +1,122 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    margin-top: 1.5rem;
+  }
+
+  .model {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2rem;
+  }
+
+  .imageWrapper {
+    position: relative;
+    max-width: 400px;
+    margin-bottom: 2rem;
+
+    .productImage {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .orderButton {
+    background-color: #b30021;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+
+    &:hover {
+      background-color: #8d002b;
+    }
+  }
+
+  .subtitle {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .tableWrapper {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .value {
+    width: 25rem;
+  }
+
+  .label {
+    font-weight: bold;
+    background-color: #f9f9f9;
+    width: 25rem;
+  }
+}
+
+.descriptionSection {
+  margin-top: 3rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.descriptionBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 2rem;
+  }
+
+  .descriptionImage {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+
+    @media (min-width: 768px) {
+      margin-bottom: 0;
+    }
+  }
+
+  .descriptionTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .descriptionText {
+    color: #555;
+    font-size: 0.95rem;
+  }
+}
+
+.descriptionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
