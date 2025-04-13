@@ -15,6 +15,9 @@ class DescriptionSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField()
+    type = serializers.StringRelatedField()
+    product_model = serializers.StringRelatedField()
     specs = SpecsSerializer(many=True, read_only=True)
     descriptions = DescriptionSerializer(many=True, read_only=True)
 
