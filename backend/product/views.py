@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 
-from product.models import Product
-from product.serializers import ProductSerializer
+from .models import Product
+from .serializers import ProductSerializer
 
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
@@ -11,3 +11,4 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    lookup_field = 'slug'
