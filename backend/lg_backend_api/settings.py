@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from datetime import timedelta
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,11 +47,17 @@ INSTALLED_APPS = [
     # DRF
     'drf_yasg',
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     # Apps
     "product",
+    "accounts",
     # Other
     'smart_selects',
     'corsheaders',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'schema_viewer',
 ]
 
 MIDDLEWARE = [
@@ -86,6 +93,57 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'lg_backend_api.wsgi.application'
 
+# DRF
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+
+}
+
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'accounts.serializers.LoginSerializer',
+}
+
+# djangorestframework-simplejwt
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
+
+AUTH_USER_MODEL = 'accounts.User'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+# dj-rest-auth
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'lg-auth',
+    'JWT_AUTH_REFRESH_COOKIE': 'lg-refresh-token',
+    "JWT_AUTH_HTTPONLY": False,
+}
+
+
+# Swagger
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'JWT Authorization header using '
+                           'the Bearer scheme. '
+                           'Example: "Bearer [token]"',
+        }
+    },
+    'USE_SESSION_AUTH': False,
+}
+
+
 # Image service
 
 CLOUDINARY_STORAGE = {
@@ -113,6 +171,18 @@ DATABASES = {
         'HOST': config('POSTGRES_HOST', default='localhost'),
         'PORT': config('POSTGRES_PORT', default='5432'),
     }
+}
+
+# django-schema-viewer
+
+SCHEMA_VIEWER = {
+    # 'apps': [
+    #     'contenttypes',
+    #     'my_app',
+    # ],
+    'exclude': {
+        'rest_framework_simplejwt.token_blacklist': ['outstandingtoken', 'blacklistedtoken'],
+    },
 }
 
 
@@ -151,6 +221,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
