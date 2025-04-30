@@ -12,6 +12,9 @@ import ProductDetailedPage from "./pages/ProductDetailedPage/ProductDetailedPage
 import ProductsPage from "./pages/ProductsPage/ProductsPage";
 import UserPage from "./pages/UserPage/UserPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
+import CategoriesPage from "./pages/CategoriesPage/CategoriesPage";
+import TypesPage from "./pages/TypesPage/TypesPage";
+import ModelPage from "./pages/ModelPage/ModelPage";
 
 const Routing = () => {
   const PUBLIC_ROUTES = [
@@ -36,44 +39,49 @@ const Routing = () => {
       id: 4,
     },
     {
-      link: "/contacts",
-      element: <ContactsPage />,
-      id: 5,
-    },
-    {
       link: "/cases/:id",
       element: <CasesDetailedPage />,
-      id: 6,
+      id: 5,
     },
     {
       link: "/news/:id",
       element: <NewsDetailedPage />,
-      id: 7,
+      id: 6,
     },
     {
-      link: "/catag",
-      element: <CategoriesCard />,
-      id: 8,
+      link: "/categories",
+      element: <CategoriesPage />,
+      id: 7,
     },
     {
       link: "/products/:slug",
       element: <ProductDetailedPage />,
-      id: 9,
+      id: 8,
     },
     {
       link: "/products",
       element: <ProductsPage />,
-      id: 10,
+      id: 9,
     },
     {
       link: "/profile/:id",
       element: <UserPage />,
+      id: 10,
+    },
+    {
+      link: "/admin",
+      element: <AdminPage />,
       id: 11,
     },
     {
-      link: "/admin/",
-      element: <AdminPage />,
+      link: "/types",
+      element: <TypesPage />,
       id: 12,
+    },
+    {
+      link: "/model",
+      element: <ModelPage />,
+      id: 13,
     },
   ];
   return (

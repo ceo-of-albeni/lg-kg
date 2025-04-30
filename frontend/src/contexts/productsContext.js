@@ -32,46 +32,20 @@ const ProductsContextProvider = ({ children }) => {
 
   const API = "http://localhost:8000";
 
-  const navigate = useNavigate();
-
-  // async function getProducts() {
-  //   try {
-  //     const res = await axios(`${API}/products`);
-  //     dispatch({
-  //       type: "GET_PRODUCTS",
-  //       payload: res.data,
-  //     });
-  //     console.log(res);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
   async function getProducts() {
-    const { data } = await axios(`${API}/products`);
+    const { data } = await axios(`http://127.0.0.1:8000/products`);
     dispatch({
       type: "GET_PRODUCTS",
       payload: data,
     });
   }
 
-  async function addProduct(formData) {
-    try {
-      const res = await axios.post(`${API}/products`, formData);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function deleteProduct(slug) {
-    await axios.delete(`${API}/products/${slug}`);
-  }
-
   async function getOneProduct(slug) {
     try {
-      const res = await axios.get(`${API}/products?slug=${slug}`);
+      const res = await axios.get(`http://127.0.0.1:8000/products/${slug}`);
       dispatch({
         type: "GET_ONE_PRODUCT",
-        payload: res.data[0], // grab the first matching item
+        payload: res.data, // grab the first matching item
       });
     } catch (err) {
       console.error("Error fetching one product:", err);
@@ -85,7 +59,6 @@ const ProductsContextProvider = ({ children }) => {
         type: "GET_ONE_CASE",
         payload: res.data[0],
       });
-      console.log(res.data);
     } catch (err) {
       console.error("Error fetching one case:", err);
     }
@@ -98,7 +71,6 @@ const ProductsContextProvider = ({ children }) => {
         type: "GET_ONE_NEWS",
         payload: res.data[0],
       });
-      console.log(res.data);
     } catch (err) {
       console.error("Error fetching one news:", err);
     }
@@ -133,7 +105,7 @@ const ProductsContextProvider = ({ children }) => {
         getOneCase,
         setError,
         getProducts,
-        addProduct,
+        // addProduct,
         getOneProduct,
         addCase,
         addNews,

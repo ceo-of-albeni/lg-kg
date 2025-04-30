@@ -13,7 +13,7 @@ const ProductCard = ({ product, onOrderClick }) => {
   const navigate = useNavigate();
 
   const defaultSpecLabels = [
-    "Производительность (кВт)",
+    "Производительность",
     "EER",
     "Габаритные размеры(мм)",
     "Хладагент",
@@ -37,12 +37,6 @@ const ProductCard = ({ product, onOrderClick }) => {
         <Typography variant="subtitle1" className={styles.title}>
           {product.name}
         </Typography>
-
-        {/* {product.product_model && (
-          <Typography variant="caption" className={styles.model}>
-            {product.product_model}
-          </Typography>
-        )} */}
 
         <ul className={styles.specs}>
           {matchedSpecs.length > 0 ? (

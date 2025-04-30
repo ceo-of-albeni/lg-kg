@@ -51,7 +51,6 @@ const OrderModal = ({ open, onClose, product }) => {
   };
 
   const handleSubmit = () => {
-    console.log(form);
     onClose();
   };
 

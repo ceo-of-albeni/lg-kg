@@ -15,16 +15,16 @@ export default function ProductsPage() {
 
   const [searchParams] = useSearchParams();
   const selectedCategory = searchParams.get("category");
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [selectedCategory]);
 
   useEffect(() => {
     getProducts();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [selectedCategory]);
+
   const itemsOnPage = 12;
-  // const count = products ? Math.ceil(products.length / itemsOnPage) : 0;
 
   const handlePage = (e, p) => setPage(p);
 
@@ -38,7 +38,7 @@ export default function ProductsPage() {
     setSelectedProduct(null);
   };
 
-  const filteredProducts = selectedCategory
+  let filteredProducts = selectedCategory
     ? products.filter((p) => p.category === selectedCategory)
     : products;
 
@@ -51,14 +51,13 @@ export default function ProductsPage() {
     const end = begin + itemsOnPage;
     return filteredProducts.slice(begin, end);
   };
-
   return (
     <div className={styles.container}>
       <Typography variant="h4" className={styles.pageTitle}>
         Вся линейка продукции
       </Typography>
 
-      {!products || products.length === 0 ? (
+      {!filteredProducts || filteredProducts.length === 0 ? (
         <Typography align="center">Загрузка...</Typography>
       ) : (
         <div className={styles.grid}>

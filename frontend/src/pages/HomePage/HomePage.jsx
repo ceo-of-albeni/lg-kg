@@ -20,21 +20,22 @@ const HomePage = () => {
           <HomeCards />
         </div>
         <div className="categories">
+          <h1>Продукция</h1>
           <CategoriesCard />
         </div>
         <div>
           <Catalogs />
         </div>
-        <div className="video-div">
-          <video
-            controls
-            type="video/mp4"
-            autoPlay
-            muted
-            src="https://lg-b2b.ru/upload/video-main.mp4"></video>
-        </div>
+      </div>
+      <div className="video-div">
+        <video
+          controls
+          type="video/mp4"
+          autoPlay
+          muted
+          src="https://lg-b2b.ru/upload/video-main.mp4"></video>
       </div>
     </>
   );
-}
+};
 export default HomePage;

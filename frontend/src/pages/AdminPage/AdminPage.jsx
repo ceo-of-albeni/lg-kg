@@ -13,7 +13,7 @@ import "./AdminPage.scss";
 import { productsContext } from "../../contexts/productsContext";
 
 const AdminPage = () => {
-  const { addProduct, addCase, addNews } = useContext(productsContext);
+  const { addCase, addNews } = useContext(productsContext);
 
   const [tabIndex, setTabIndex] = useState(0);
   const [productForm, setProductForm] = useState({
@@ -45,7 +45,7 @@ const AdminPage = () => {
 
   const handleProductSubmit = (e) => {
     e.preventDefault();
-    addProduct(productForm);
+    // addProduct(productForm);
   };
 
   const handleCaseSubmit = (e) => {

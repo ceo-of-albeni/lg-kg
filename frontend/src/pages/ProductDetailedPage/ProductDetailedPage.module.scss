@@ -19,7 +19,7 @@
   }
 
   .imageWrapper {
-    position: relative;
+    // position: relative;
     max-width: 400px;
     margin-bottom: 2rem;
 
@@ -78,7 +78,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -100,14 +100,14 @@
   }
 
   .descriptionTitle {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
   }
 
   .descriptionText {
     color: #555;
-    font-size: 0.95rem;
+    font-size: 1.25rem;
   }
 }
 

@@ -17,10 +17,7 @@ const UserPage = () => {
   // Fetch user data when component mounts
   useEffect(() => {
     getOneUser(id);
-    console.log("oneUser:", oneUser); // Add this to verify the value of oneUser
   }, [id]);
-
-  console.log(oneUser.name);
 
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -63,8 +60,6 @@ const UserPage = () => {
     fetchOrders();
   }, [oneUser]);
 
-  // if (!oneUser) return <div className="user-page">Загрузка...</div>;
-
   async function saveChanges() {
     if (
       !name.trim() ||
@@ -92,7 +87,6 @@ const UserPage = () => {
       alert("Профиль успешно обновлён!");
       setIsEditing(false);
 
-      // Refresh user data
       getOneUser(oneUser.id);
     } catch (err) {
       console.error("Failed to update user:", err);

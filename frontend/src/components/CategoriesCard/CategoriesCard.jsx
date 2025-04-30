@@ -45,7 +45,6 @@ const CategoriesCard = () => {
 
   return (
     <div className="product-grid">
-      <h2 className="grid-title">Продукция</h2>
       <div className="grid-container">
         {products.map((product) => (
           <div
@@ -53,7 +52,8 @@ const CategoriesCard = () => {
             className="product-card"
             onClick={() =>
               navigate(
-                `/products?category=${encodeURIComponent(product.title)}`
+                // `/products?category=${encodeURIComponent(product.title)}`
+                "/types"
               )
             }>
             <img

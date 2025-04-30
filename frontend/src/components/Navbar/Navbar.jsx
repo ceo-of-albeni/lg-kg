@@ -23,10 +23,11 @@ const Navbar = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+  console.log(currentUser);
 
   const goToProfile = () => {
-    if (currentUser && currentUser.id) {
-      navigate(`/profile/${currentUser.id}`);
+    if (currentUser && currentUser.pk) {
+      navigate(`/profile/${currentUser.pk}`);
     }
   };
 
@@ -39,9 +40,11 @@ const Navbar = () => {
 
         <ul className="nav-links">
           <li onClick={() => navigate("/")}>ГЛАВНАЯ</li>
-          <li onClick={() => navigate("/catag")}>СИСТЕМЫ КОНДИЦИОНИРОВАНИЯ</li>
+          <li onClick={() => navigate("/categories")}>
+            СИСТЕМЫ КОНДИЦИОНИРОВАНИЯ
+          </li>
           <li onClick={() => navigate("/contacts")}>КОНТАКТЫ</li>
-          <li onClick={() => navigate("/admin")}>АДМИН</li>
+          {/* <li onClick={() => navigate("/admin")}>АДМИН</li> */}
         </ul>
 
         <div className="navbar-right">

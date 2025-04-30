@@ -16,6 +16,8 @@ const LoginModal = ({ closeModal }) => {
       email,
       password,
     };
+    console.log(formData);
+
     handleLogin(formData, email);
     closeModal();
   };

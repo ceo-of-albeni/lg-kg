@@ -51,7 +51,7 @@ const ProductDetailedPage = () => {
       />
 
       <Box className={styles.descriptionSection}>
-        {oneProduct?.description?.map((item, index) => (
+        {oneProduct?.descriptions?.map((item, index) => (
           <div className={styles.descriptionBlock} key={index}>
             <img
               src={item.image}
