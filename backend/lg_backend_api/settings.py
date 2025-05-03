@@ -52,6 +52,11 @@ INSTALLED_APPS = [
     # Apps
     "product",
     "accounts",
+    'order',
+    'news',
+    'cases',
+    'catalogs',
+    'contacts',
     # Other
     'smart_selects',
     'corsheaders',

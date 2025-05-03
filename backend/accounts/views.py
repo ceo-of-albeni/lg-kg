@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, UserSerializer
 from django.contrib.auth import get_user_model
 from dj_rest_auth.jwt_auth import set_jwt_cookies
 from dj_rest_auth.views import LoginView as DjLoginView
@@ -42,3 +42,8 @@ class RegisterView(generics.CreateAPIView):
         set_jwt_cookies(response, access, refresh)
 
         return response
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

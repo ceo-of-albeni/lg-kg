@@ -4,6 +4,8 @@ from django.contrib.auth.password_validation import validate_password
 from dj_rest_auth.serializers import LoginSerializer
 from rest_framework import serializers
 
+from order.serializers import OrderSerializer
+
 User = get_user_model()
 
 
@@ -41,3 +43,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+class UserSerializer(serializers.ModelSerializer):
+    order_list = OrderSerializer(many=True, read_only=True, source='orders')
+
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'surname', 'phone', 'email', 'password', 'inn', 'bic', 'order_list')

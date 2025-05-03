@@ -50,6 +50,13 @@ class LogoutPostOnlyView(LogoutView):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('product.urls')),
+    path('', include('order.urls')),
+    path('', include('cases.urls')),
+    path('', include('accounts.urls')),
+    path('', include('catalogs.urls')),
+    path('', include('contacts.urls')),
+    path('', include('news.urls')),
+    path('', include('accounts.urls')),
 
     # Dj-rest-auth
     # path('auth/', include('dj_rest_auth.urls')),
