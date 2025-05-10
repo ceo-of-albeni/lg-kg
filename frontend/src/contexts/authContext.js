@@ -68,12 +68,11 @@ const AuthContextProvider = ({ children }) => {
     try {
       const res = await axios.post(`${API}/auth/login`, newObj);
       localStorage.setItem("tokens", JSON.stringify(res.data.access));
+      localStorage.setItem("tokens_refresh", JSON.stringify(res.data.refresh));
       localStorage.setItem("email", email);
       navigate("/");
       setCurrentUser(res.data.user);
       console.log();
-
-      // window.location.reload();
     } catch (err) {
       alert("Incorrect email or password!");
       console.log(err);
@@ -82,12 +81,34 @@ const AuthContextProvider = ({ children }) => {
   }
 
   async function handleLogout() {
-    const res = await axios.post(`${API}/auth/logout`);
-    // localStorage.removeItem("tokens");
-    // localStorage.removeItem("email");
-    // localStorage.removeItem("user");
-    // setCurrentUser(null);
-    navigate("/");
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("tokens"));
+      const refreshToken = JSON.parse(localStorage.getItem("tokens_refresh"));
+
+      // Build request body
+      const body = {
+        refresh: refreshToken,
+      };
+
+      // Set Authorization header (optional but good practice)
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      await axios.post(`${API}/auth/logout`, body, config);
+
+      // Clear localStorage and reset state
+      localStorage.removeItem("tokens");
+      localStorage.removeItem("tokens_refresh");
+      localStorage.removeItem("email");
+
+      setCurrentUser(null);
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   }
 
   async function editUserInfo(formData, id) {
@@ -101,19 +122,14 @@ const AuthContextProvider = ({ children }) => {
 
   async function getOneUser(id) {
     try {
-      const res = await axios.get(`${API}/users?id=${id}`);
+      const res = await axios(`${API}/users/${id}`);
       dispatch({
         type: "GET_ONE_USER",
-        payload: res.data[0],
+        payload: res.data,
       });
-      console.log(res.data, "eee");
+      console.log(res.data);
     } catch (err) {
-      console.error("Error fetching user profile:", err);
-      if (err.response) {
-        if (err.response.status === 401) {
-          console.warn("Unauthorized: Redirecting to login...");
-        }
-      }
+      console.log(err);
     }
   }
 

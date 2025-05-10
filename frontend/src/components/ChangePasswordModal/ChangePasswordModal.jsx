@@ -20,13 +20,22 @@ const ChangePasswordModal = ({ closeModal }) => {
         </span>
         <h2>Сброс пароля</h2>
         <p className="instruction">
-          Введите свой email, и мы отправим вам инструкцию по сбросу пароля.
+          Введите свой email, и мы отправим вам подтверждение на сброс пароля.
         </p>
         <form onSubmit={onSubmit}>
           <div className="form-group">
             <label>Email:</label>
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Новый пароль:</label>
+            <input
+              type="password"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

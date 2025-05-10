@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   Typography,
@@ -11,8 +11,10 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "./OrderModal.module.scss";
+import { productsContext } from "../../contexts/productsContext";
 
 const OrderModal = ({ open, onClose, product }) => {
+  const { postOrder } = useContext(productsContext);
   const [form, setForm] = useState({
     name: "",
     phone: "",
