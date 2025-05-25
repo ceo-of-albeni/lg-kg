@@ -55,11 +55,16 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 15px;
+
+  input {
+    width: 96% !important;
+  }
 }
 
-/* Simple "X" close button */
+/* X button */
 .close-button {
   position: absolute;
   top: 10px;
@@ -88,5 +93,20 @@
     &:hover {
       color: #90001a;
     }
+  }
+}
+
+.forgot-password {
+  font-size: 13px;
+  color: #b30021;
+  text-align: right;
+  width: 100%;
+  margin: -10px 0 15px 0;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #90001a;
+    text-decoration: underline;
   }
 }

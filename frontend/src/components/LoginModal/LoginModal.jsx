@@ -2,11 +2,13 @@ import React, { useState, useContext } from "react";
 import "./LoginModal.scss";
 import RegistrationModal from "../RegistrationModal/RegistrationModal";
 import { authContext } from "../../contexts/authContext";
+import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
 
 const LoginModal = ({ closeModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
 
   const { handleLogin } = useContext(authContext);
 
@@ -16,6 +18,7 @@ const LoginModal = ({ closeModal }) => {
       email,
       password,
     };
+
     handleLogin(formData, email);
     closeModal();
   };
@@ -27,6 +30,8 @@ const LoginModal = ({ closeModal }) => {
         closeModal();
       }}
     />
+  ) : isResettingPassword ? (
+    <ChangePasswordModal closeModal={() => setIsResettingPassword(false)} />
   ) : (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -54,6 +59,12 @@ const LoginModal = ({ closeModal }) => {
               required
             />
           </div>
+
+          <p
+            className="forgot-password"
+            onClick={() => setIsResettingPassword(true)}>
+            Забыли пароль?
+          </p>
 
           <button type="submit">Войти</button>
           <p className="signup-text">

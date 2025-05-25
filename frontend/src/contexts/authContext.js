@@ -20,7 +20,7 @@ function reducer(state = INIT_STATE, action) {
   }
 }
 
-const API = "http://localhost:8000";
+const API = "http://127.0.0.1:8000";
 
 const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -50,61 +50,65 @@ const AuthContextProvider = ({ children }) => {
 
   async function handleRegister(newObj) {
     try {
-      const res = await axios.post(`${API}/auth/register`, newObj);
-      // navigate("/profile");
-    } catch (err) {
-      console.log(err);
-      setError(err);
-    } finally {
-    }
-  }
-
-  async function handleLogin(formData, email) {
-    try {
-      const res = await axios.get(`${API}/users`);
-      const users = res.data;
-      const user = users.find(
-        (u) => u.email === formData.email && u.password === formData.password
+      const res = await axios.post(
+        `http://127.0.0.1:8000/auth/register/`,
+        newObj
       );
-
-      if (user) {
-        setCurrentUser(user);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("email", email);
-        console.log("Вы вошли в аккаунт.");
-
-        navigate("/");
-      } else {
-        alert("Вы ввели неправильную почту или пароль!");
-      }
+      console.log("User created:", res.data);
     } catch (err) {
+      setError(true);
+      if (err.response) {
+        console.error("Error:", err.response.data);
+      } else {
+        console.error("Unknown error:", err);
+      }
+    }
+  }
+  async function handleLogin(newObj, email) {
+    try {
+      const res = await axios.post(`${API}/auth/login`, newObj);
+      localStorage.setItem("tokens", JSON.stringify(res.data.access));
+      localStorage.setItem("tokens_refresh", JSON.stringify(res.data.refresh));
+      localStorage.setItem("email", email);
+      navigate("/");
+      setCurrentUser(res.data.user);
+      console.log();
+    } catch (err) {
+      alert("Incorrect email or password!");
       console.log(err);
       setError(err);
-      alert("Произошла ошибка при входе.");
     }
   }
 
-  async function handleUser(newProduct, navigate) {
+  async function handleLogout() {
     try {
-      const tokens = JSON.parse(localStorage.getItem("tokens"));
-      const Authorization = `Bearer ${tokens.access_token}`;
+      const accessToken = JSON.parse(localStorage.getItem("tokens"));
+      const refreshToken = JSON.parse(localStorage.getItem("tokens_refresh"));
+
+      // Build request body
+      const body = {
+        refresh: refreshToken,
+      };
+
+      // Set Authorization header (optional but good practice)
       const config = {
         headers: {
-          Authorization,
+          Authorization: `Bearer ${accessToken}`,
         },
       };
-      const res = await axios.post(`${API}/user-profile/`, newProduct, config);
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
-  function handleLogout() {
-    localStorage.removeItem("tokens");
-    localStorage.removeItem("email");
-    localStorage.removeItem("user");
-    setCurrentUser(null);
-    navigate("/");
+      await axios.post(`${API}/auth/logout`, body, config);
+
+      // Clear localStorage and reset state
+      localStorage.removeItem("tokens");
+      localStorage.removeItem("tokens_refresh");
+      localStorage.removeItem("email");
+
+      setCurrentUser(null);
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   }
 
   async function editUserInfo(formData, id) {
@@ -118,19 +122,14 @@ const AuthContextProvider = ({ children }) => {
 
   async function getOneUser(id) {
     try {
-      const res = await axios.get(`${API}/users?id=${id}`);
+      const res = await axios(`${API}/users/${id}`);
       dispatch({
         type: "GET_ONE_USER",
-        payload: res.data[0],
+        payload: res.data,
       });
-      console.log(res.data, "eee");
+      console.log(res.data);
     } catch (err) {
-      console.error("Error fetching user profile:", err);
-      if (err.response) {
-        if (err.response.status === 401) {
-          console.warn("Unauthorized: Redirecting to login...");
-        }
-      }
+      console.log(err);
     }
   }
 
@@ -148,7 +147,6 @@ const AuthContextProvider = ({ children }) => {
         getOneUser,
         getUsers,
         handleLogout,
-        handleUser,
         setCurrentUser,
         handleLogin,
         editUserInfo,

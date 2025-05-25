@@ -1,30 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./CasesPage.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { productsContext } from "../../contexts/productsContext";
 
 const API = "http://localhost:8000";
 
 const CasesPage = () => {
-  const [cases, setCases] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const casesPerPage = 3;
+  const casesPerPage = 9;
   const navigate = useNavigate();
+  const { getCases, cases } = useContext(productsContext);
 
   useEffect(() => {
-    const fetchCases = async () => {
-      try {
-        const res = await axios.get(`${API}/cases`);
-        setCases(res.data.reverse()); // Show newest first (optional)
-      } catch (error) {
-        console.error("Ошибка при загрузке кейсов:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCases();
+    getCases();
+    console.log(cases);
   }, []);
 
   const indexOfLastCase = currentPage * casesPerPage;

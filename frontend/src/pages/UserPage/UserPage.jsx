@@ -4,28 +4,37 @@ import { authContext } from "../../contexts/authContext";
 import axios from "axios";
 import { Button } from "@mui/material";
 import { Modal, Box, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // ✅ import useNavigate
 
-const API = "http://localhost:8000";
+const API = "http://127.0.0.1:8000";
 
 const UserPage = () => {
-  const { editUserInfo, getOneUser, oneUser } = useContext(authContext);
+  const {
+    editUserInfo,
+    getOneUser,
+    oneUser = {},
+    currentUser, // ✅ get currentUser
+  } = useContext(authContext);
+
   const [userOrders, setUserOrders] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate(); // ✅ for redirect
 
-  // Fetch user data when component mounts
+  // 🔒 Redirect if NOT logged in
+  useEffect(() => {
+    if (!currentUser && !localStorage.getItem("tokens")) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
+
   useEffect(() => {
     getOneUser(id);
-    console.log("oneUser:", oneUser); // Add this to verify the value of oneUser
   }, [id]);
-
-  console.log(oneUser.name);
 
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
-  // Initialize form data only if oneUser exists
   const [name, setName] = useState(oneUser.name);
   const [surname, setSurname] = useState("");
   const [phone, setPhone] = useState("");
@@ -33,7 +42,6 @@ const UserPage = () => {
   const [inn, setInn] = useState("");
   const [bic, setBic] = useState("");
 
-  // Update form values when oneUser changes
   useEffect(() => {
     if (oneUser) {
       setName(oneUser.name || "");
@@ -45,7 +53,6 @@ const UserPage = () => {
     }
   }, [oneUser]);
 
-  // Fetch orders after getting user data
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -62,8 +69,6 @@ const UserPage = () => {
 
     fetchOrders();
   }, [oneUser]);
-
-  // if (!oneUser) return <div className="user-page">Загрузка...</div>;
 
   async function saveChanges() {
     if (
@@ -91,8 +96,6 @@ const UserPage = () => {
       await editUserInfo(editedInfo, oneUser.id);
       alert("Профиль успешно обновлён!");
       setIsEditing(false);
-
-      // Refresh user data
       getOneUser(oneUser.id);
     } catch (err) {
       console.error("Failed to update user:", err);
@@ -159,22 +162,22 @@ const UserPage = () => {
         ) : (
           <>
             <p>
-              <strong>Имя:</strong> {name}
+              <strong>Имя:</strong> {oneUser.name}
             </p>
             <p>
-              <strong>Фамилия:</strong> {surname}
+              <strong>Фамилия:</strong> {oneUser.surname}
             </p>
             <p>
-              <strong>Телефон:</strong> {phone}
+              <strong>Телефон:</strong> {oneUser.phone}
             </p>
             <p>
-              <strong>Email:</strong> {email}
+              <strong>Email:</strong> {oneUser.email}
             </p>
             <p>
-              <strong>ИНН:</strong> {inn}
+              <strong>ИНН:</strong> {oneUser.inn}
             </p>
             <p>
-              <strong>БИК:</strong> {bic}
+              <strong>БИК:</strong> {oneUser.bic}
             </p>
 
             <Button
@@ -218,7 +221,6 @@ const UserPage = () => {
           </tbody>
         </table>
 
-        {/* Modal */}
         <Modal open={openModal} onClose={handleCloseModal}>
           <Box
             sx={{
