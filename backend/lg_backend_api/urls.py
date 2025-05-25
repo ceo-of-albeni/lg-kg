@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from dj_rest_auth.views import LogoutView, PasswordChangeView
-from accounts.views import LoginView
+from accounts.views import LoginView, CustomRegisterView
 
 from django.contrib import admin
 from django.urls import path, include
@@ -27,7 +27,7 @@ from .token_views import (
     DecoratedTokenObtainPairView,
     DecoratedTokenRefreshView,
 )
-from accounts.views import RegisterView
+from accounts.views import ManualRegisterView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -59,12 +59,14 @@ urlpatterns = [
     path('', include('accounts.urls')),
 
     # Dj-rest-auth
-    # path('auth/', include('dj_rest_auth.urls')),
-    path('auth/login', LoginView.as_view(), name='login'),
-    path('auth/logout', LogoutPostOnlyView.as_view(), name='logout'),
-    path('auth/password/change/', PasswordChangeView.as_view(), name='password_change'),
+    path('auth/', include('dj_rest_auth.urls')),
+    path('auth/registration/', CustomRegisterView.as_view(), name='custom_register'),
+    path('accounts/', include('allauth.urls')),
+    # path('auth/login', LoginView.as_view(), name='login'),
+    # path('auth/logout', LogoutPostOnlyView.as_view(), name='logout'),
+    # path('auth/password/change/', PasswordChangeView.as_view(), name='password_change'),
 
-    path('auth/register/', RegisterView.as_view(), name='register'),
+    # path('auth/register/', RegisterView.as_view(), name='register'),
 
     # SimpleJWT
     path('token/', DecoratedTokenObtainPairView.as_view(), name='token_obtain_pair'),

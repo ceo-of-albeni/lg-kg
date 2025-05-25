@@ -3,10 +3,11 @@ from django.shortcuts import render
 from rest_framework import generics, permissions, viewsets
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegisterSerializer, UserSerializer
+from .serializers import ManualRegisterSerializer, UserSerializer, CustomRegisterSerializer
 from django.contrib.auth import get_user_model
 from dj_rest_auth.jwt_auth import set_jwt_cookies
 from dj_rest_auth.views import LoginView as DjLoginView
+from dj_rest_auth.registration.views import RegisterView
 from .serializers import LoginSerializer
 
 User = get_user_model()
@@ -16,10 +17,14 @@ class LoginView(DjLoginView):
     serializer_class = LoginSerializer
 
 
-class RegisterView(generics.CreateAPIView):
+class CustomRegisterView(RegisterView):
+    serializer_class = CustomRegisterSerializer
+
+
+class ManualRegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = [permissions.AllowAny]
-    serializer_class = RegisterSerializer
+    serializer_class = ManualRegisterSerializer
 
     def perform_create(self, serializer):
         user = serializer.save()
