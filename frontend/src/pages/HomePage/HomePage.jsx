@@ -8,6 +8,14 @@ const HomePage = () => {
   return (
     <>
       <div className="container">
+        <div className="home-banner">
+          <div className="overlay" />
+          <img
+            src="https://www.binaryversion.pt/wp-content/uploads/lg.png"
+            alt="LG Logo"
+            className="banner-logo"
+          />
+        </div>
         <h1>Отраслевые решения</h1>
         <p>
           LG предлагает оптимизированные решения HVAC для всех климатических

@@ -9,48 +9,56 @@ import OrderModal from "../../components/OrderModal/OrderModal";
 export default function ProductsPage() {
   const [page, setPage] = useState(1);
   const { getProducts, products } = useContext(productsContext);
-
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
   const [searchParams] = useSearchParams();
+
   const selectedCategory = searchParams.get("category");
+  const selectedType = searchParams.get("type");
+  const selectedModel = searchParams.get("model");
 
   useEffect(() => {
     getProducts();
-  }, []);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [selectedCategory]);
+  }, [getProducts]);
 
   const itemsOnPage = 12;
-
   const handlePage = (e, p) => setPage(p);
-
   const handleOrderClick = (product) => {
     setSelectedProduct(product);
     setModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedProduct(null);
   };
 
-  let filteredProducts = selectedCategory
-    ? products.filter((p) => p.category === selectedCategory)
-    : products;
+  // Filter products based on category, type, and model
+  let filteredProducts = products;
 
-  const count = filteredProducts
-    ? Math.ceil(filteredProducts.length / itemsOnPage)
-    : 0;
+  if (selectedCategory) {
+    filteredProducts = filteredProducts.filter(
+      (p) => p.category === selectedCategory
+    );
+  }
+
+  if (selectedType) {
+    filteredProducts = filteredProducts.filter((p) => p.type === selectedType);
+  }
+
+  if (selectedModel) {
+    filteredProducts = filteredProducts.filter(
+      (p) => p.product_model === selectedModel
+    );
+  }
+
+  const count = Math.ceil(filteredProducts.length / itemsOnPage);
 
   const currentData = () => {
     const begin = (page - 1) * itemsOnPage;
     const end = begin + itemsOnPage;
     return filteredProducts.slice(begin, end);
   };
+
   return (
     <div className={styles.container}>
       <Typography variant="h4" className={styles.pageTitle}>

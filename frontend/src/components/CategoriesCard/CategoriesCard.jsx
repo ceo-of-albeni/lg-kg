@@ -1,67 +1,34 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "./CategoriesCard.scss";
 import { useNavigate } from "react-router-dom";
+import { productsContext } from "../../contexts/productsContext";
 
 const CategoriesCard = () => {
   const navigate = useNavigate();
-  const products = [
-    {
-      id: 1,
-      title: "Мультизональные системы VRF",
-      image:
-        "https://lg-b2b.ru/local/templates/lg/images/ac/industries/model_6.png",
-    },
-    {
-      id: 2,
-      title: "Холодильные машины (Чиллеры)",
-      image:
-        "https://lg-b2b.ru/local/templates/lg/images/ac/industries/model_1.png",
-    },
-    {
-      id: 3,
-      title: "Приточно-Вытяжные Установки (ПВУ)",
-      image:
-        "https://lg-b2b.ru/local/templates/lg/images/ac/industries/model_2.png",
-    },
-    {
-      id: 4,
-      title: "Полупромышленные сплит-системы",
-      image:
-        "https://lg-b2b.ru/local/templates/lg/images/ac/industries/model_3.png",
-    },
-    {
-      id: 5,
-      title: "Полупромышленные Мульти сплит-системы",
-      image:
-        "https://lg-b2b.ru/local/templates/lg/images/ac/industries/model_5.png",
-    },
-    {
-      id: 6,
-      title: "Бытовые сплит-системы",
-      image:
-        "https://lg-b2b.ru/local/templates/lg/images/ac/industries/model_7.png",
-    },
-  ];
+  const { getProducts, products } = useContext(productsContext);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const categories = [...new Set(products.map((product) => product.category))];
 
   return (
     <div className="product-grid">
       <div className="grid-container">
-        {products.map((product) => (
+        {categories.map((category, index) => (
           <div
-            key={product.id}
+            key={index}
             className="product-card"
             onClick={() =>
-              navigate(
-                // `/products?category=${encodeURIComponent(product.title)}`
-                "/types"
-              )
+              navigate(`/types?category=${encodeURIComponent(category)}`)
             }>
             <img
-              src={product.image}
-              alt={product.title}
+              src="https://lg-b2b.ru/local/templates/lg/images/ac/industries/model_6.png" // Static image for now, can be replaced later
+              alt={category}
               className="product-image"
             />
-            <div className="product-title">{product.title}</div>
+            <div className="product-title">{category}</div>
           </div>
         ))}
       </div>

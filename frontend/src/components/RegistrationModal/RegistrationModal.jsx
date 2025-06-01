@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./RegistrationModal.scss";
 import { authContext } from "../../contexts/authContext";
 
 const RegistrationModal = ({ closeModal }) => {
-  const { handleRegister } = useContext(authContext);
+  const { handleRegistration } = useContext(authContext);
 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -11,44 +11,171 @@ const RegistrationModal = ({ closeModal }) => {
   const [phone, setPhone] = useState("");
   const [inn, setInn] = useState("");
   const [bic, setBic] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [password1, setPassword] = useState("");
+  const [password2, setPasswordConfirm] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordConfirmError, setPasswordConfirmError] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const [touchedFields, setTouchedFields] = useState({
+    email: false,
+    password1: false,
+    password2: false,
+  });
+
+  const validatePassword = (password1) => {
+    const minLength = password1.length >= 8;
+    const hasLetters = /[A-Za-z]/.test(password1);
+    const hasNumbers = /\d/.test(password1);
+    const commonPasswords = ["password", "12345678", "qwerty", "abc123"];
+
+    if (!minLength) {
+      return "Пароль должен содержать минимум 8 символов.";
+    }
+    if (!hasLetters || !hasNumbers) {
+      return "Пароль должен содержать буквы и цифры.";
+    }
+    if (commonPasswords.includes(password1.toLowerCase())) {
+      return "Пароль слишком простой, выберите другой.";
+    }
+    return "";
+  };
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!re.test(email)) {
+      return "Неверный формат email.";
+    }
+    return "";
+  };
+
+  useEffect(() => {
+    if (touchedFields.password1) {
+      const pwdError = validatePassword(password1);
+      setPasswordError(pwdError);
+    } else {
+      setPasswordError("");
+    }
+
+    if (touchedFields.email) {
+      const emailErr = validateEmail(email);
+      setEmailError(emailErr);
+    } else {
+      setEmailError("");
+    }
+
+    if (touchedFields.password2) {
+      if (password1 !== password2) {
+        setPasswordConfirmError("Пароли не совпадают.");
+      } else {
+        setPasswordConfirmError("");
+      }
+    } else {
+      setPasswordConfirmError("");
+    }
+
+    const allFieldsFilled =
+      name.trim() &&
+      surname.trim() &&
+      email.trim() &&
+      phone.trim() &&
+      inn.trim() &&
+      bic.trim() &&
+      password1.trim() &&
+      password2.trim();
+
+    const noErrors =
+      !validatePassword(password1) &&
+      !validateEmail(email) &&
+      password1 === password2 &&
+      allFieldsFilled;
+
+    setIsFormValid(!!noErrors);
+  }, [
+    name,
+    surname,
+    email,
+    phone,
+    inn,
+    bic,
+    password1,
+    password2,
+    touchedFields,
+  ]);
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setTouchedFields((prev) => ({ ...prev, password1: true }));
+  };
+
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    setTouchedFields((prev) => ({ ...prev, email: true }));
+  };
+
+  const handlePasswordConfirmChange = (e) => {
+    const newPasswordConfirm = e.target.value;
+    setPasswordConfirm(newPasswordConfirm);
+    setTouchedFields((prev) => ({ ...prev, password2: true }));
+  };
 
   const createUser = async (e) => {
     e.preventDefault();
-    if (
-      !name.trim() ||
-      !surname.trim() ||
-      !email.trim() ||
-      !phone.trim() ||
-      !inn.trim() ||
-      !bic.trim() ||
-      !password.trim() ||
-      !passwordConfirm.trim()
-    ) {
-      alert("Some inputs are empty!");
+    setIsLoading(true); // <-- Start loading
+
+    const pwdError = validatePassword(password1);
+    const emailErr = validateEmail(email);
+
+    if (pwdError || emailErr || password1 !== password2) {
+      setPasswordError(pwdError);
+      setEmailError(emailErr);
+      if (password1 !== password2) {
+        setPasswordConfirmError("Пароли не совпадают.");
+      }
+      setIsLoading(false); // <-- Stop loading on error
       return;
     }
 
-    if (password !== passwordConfirm) {
-      alert("Passwords are not the same!");
-      return;
-    }
-
-    let newObj = {
-      name: name,
-      surname: surname,
-      email: email,
-      phone: phone,
-      inn: inn,
-      bic: bic,
-      password: password,
+    const newObj = {
+      email,
+      password1,
+      password2,
+      name,
+      surname,
+      phone,
+      inn,
+      bic,
     };
 
-    console.log(newObj);
+    const result = await handleRegistration(newObj);
+    setIsLoading(false); // <-- Stop loading after response
 
-    handleRegister(newObj);
-    closeModal();
+    if (result.success) {
+      closeModal();
+    } else {
+      const errors = result.errors;
+
+      if (errors.password1) {
+        setPasswordError(errors.password1.join(" "));
+      }
+
+      if (errors.email) {
+        const emailMsg = errors.email.join(" ");
+        const translatedEmailError = emailMsg.includes("already registered")
+          ? "Пользователь с таким email уже зарегистрирован."
+          : emailMsg;
+        setEmailError(translatedEmailError);
+      }
+
+      if (errors.general) {
+        alert(errors.general);
+      }
+    }
   };
 
   return (
@@ -87,19 +214,22 @@ const RegistrationModal = ({ closeModal }) => {
               type="email"
               name="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
               required
+              className={emailError ? "error-input" : ""}
             />
+            {emailError && <p className="error-message">{emailError}</p>}
           </div>
 
           <div className="form-group">
             <label>Телефон:</label>
             <input
-              type="number"
+              type="tel"
               name="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
+              placeholder="+996 ___ ___ ___"
             />
           </div>
 
@@ -130,10 +260,12 @@ const RegistrationModal = ({ closeModal }) => {
             <input
               type="password"
               name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={password1}
+              onChange={handlePasswordChange}
               required
+              className={passwordError ? "error-input" : ""}
             />
+            {passwordError && <p className="error-message">{passwordError}</p>}
           </div>
 
           <div className="form-group">
@@ -141,14 +273,27 @@ const RegistrationModal = ({ closeModal }) => {
             <input
               type="password"
               name="password-confirm"
-              value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
+              value={password2}
+              onChange={handlePasswordConfirmChange}
               required
+              className={passwordConfirmError ? "error-input" : ""}
             />
+            {passwordConfirmError && (
+              <p className="error-message">{passwordConfirmError}</p>
+            )}
           </div>
+          {isLoading && (
+            <div className="spinner-overlay">
+              <div className="spinner" />
+            </div>
+          )}
 
-          <button type="submit" onClick={createUser}>
-            Зарегистрироваться
+          <button
+            type="submit"
+            onClick={createUser}
+            disabled={!isFormValid}
+            className={!isFormValid ? "disabled-button" : ""}>
+            {isLoading ? "Регистрация..." : "Зарегистрироваться"}
           </button>
         </form>
       </div>

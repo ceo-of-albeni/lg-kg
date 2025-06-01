@@ -4,8 +4,9 @@ import { authContext } from "../../contexts/authContext";
 import axios from "axios";
 import { Button } from "@mui/material";
 import { Modal, Box, Typography } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom"; // ✅ import useNavigate
+import { useParams, useNavigate } from "react-router-dom";
 
+// const API = "https://lg.sytes.net";
 const API = "http://127.0.0.1:8000";
 
 const UserPage = () => {
@@ -13,15 +14,14 @@ const UserPage = () => {
     editUserInfo,
     getOneUser,
     oneUser = {},
-    currentUser, // ✅ get currentUser
+    currentUser,
   } = useContext(authContext);
 
   const [userOrders, setUserOrders] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
-  const navigate = useNavigate(); // ✅ for redirect
+  const navigate = useNavigate();
 
-  // 🔒 Redirect if NOT logged in
   useEffect(() => {
     if (!currentUser && !localStorage.getItem("tokens")) {
       navigate("/");

@@ -20,6 +20,7 @@ function reducer(state = INIT_STATE, action) {
   }
 }
 
+// const API = "https://lg.sytes.net";
 const API = "http://127.0.0.1:8000";
 
 const AuthContextProvider = ({ children }) => {
@@ -47,23 +48,28 @@ const AuthContextProvider = ({ children }) => {
       console.log(err);
     }
   }
+  const API = "http://127.0.0.1:8000";
+  // https://lg.sytes.net
 
-  async function handleRegister(newObj) {
+  async function handleRegistration(newObj) {
     try {
-      const res = await axios.post(
-        `http://127.0.0.1:8000/auth/register/`,
-        newObj
-      );
+      const res = await axios.post(`${API}/auth/registration/`, newObj);
       console.log("User created:", res.data);
+      return { success: true };
     } catch (err) {
-      setError(true);
       if (err.response) {
-        console.error("Error:", err.response.data);
+        console.error("Error:", err);
+        return { success: false, errors: err.response.data };
       } else {
         console.error("Unknown error:", err);
+        return {
+          success: false,
+          errors: { general: "Unknown error occurred." },
+        };
       }
     }
   }
+
   async function handleLogin(newObj, email) {
     try {
       const res = await axios.post(`${API}/auth/login`, newObj);
@@ -141,7 +147,7 @@ const AuthContextProvider = ({ children }) => {
         users: state.users,
         oneUser: state.oneUser,
 
-        handleRegister,
+        handleRegistration,
         setError,
         handleLogin,
         getOneUser,

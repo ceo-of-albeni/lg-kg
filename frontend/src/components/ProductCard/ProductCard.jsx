@@ -49,7 +49,15 @@ const ProductCard = ({ product, onOrderClick }) => {
         <div className={styles.buttons}>
           <Button
             variant="contained"
-            onClick={() => navigate(`/products/${product.slug}`)}
+            onClick={() =>
+              navigate(
+                `/products/${product.slug}?category=${encodeURIComponent(
+                  product.category
+                )}&type=${encodeURIComponent(
+                  product.type
+                )}&model=${encodeURIComponent(product.product_model)}`
+              )
+            }
             sx={{
               backgroundColor: "#a80036",
               "&:hover": { backgroundColor: "#8e002e" },
