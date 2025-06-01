@@ -31,7 +31,6 @@ const AuthContextProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  // Later in useEffect or after login, you can check:
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) setCurrentUser(JSON.parse(storedUser));
@@ -90,13 +89,9 @@ const AuthContextProvider = ({ children }) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("tokens"));
       const refreshToken = JSON.parse(localStorage.getItem("tokens_refresh"));
-
-      // Build request body
       const body = {
         refresh: refreshToken,
       };
-
-      // Set Authorization header (optional but good practice)
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -104,8 +99,6 @@ const AuthContextProvider = ({ children }) => {
       };
 
       await axios.post(`${API}/auth/logout`, body, config);
-
-      // Clear localStorage and reset state
       localStorage.removeItem("tokens");
       localStorage.removeItem("tokens_refresh");
       localStorage.removeItem("email");

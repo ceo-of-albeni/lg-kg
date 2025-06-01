@@ -32,14 +32,14 @@ const ContactsPage = () => {
         <h2>Контакты</h2>
         <p>Если у вас есть вопросы, не стесняйтесь обращаться!</p>
         <div className="contact-details">
-          <p>
+          {/* <p>
             <strong>Email:</strong> contact@company.com
+          </p> */}
+          <p>
+            <strong>Телефон:</strong> +996 990 099 010
           </p>
           <p>
-            <strong>Телефон:</strong> +123 456 7890
-          </p>
-          <p>
-            <strong>Адрес:</strong> ул. Примерная, 1, Бишкек, Кыргызстан
+            <strong>Адрес:</strong> Тоголок Молдо, 40, Бишкек
           </p>
         </div>
       </div>

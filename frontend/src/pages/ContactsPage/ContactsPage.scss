@@ -1,11 +1,23 @@
 .contacts-page {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  gap: 40px;
   padding: 60px;
   margin: 100px 0;
 
   .contacts-info {
     width: 40%;
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
     .contact-details {
       margin-top: 20px;
 
@@ -18,6 +30,12 @@
 
   .contact-form {
     width: 55%;
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
     .form-group {
       margin-bottom: 15px;
 
@@ -53,6 +71,51 @@
       &:hover {
         background-color: #85021a;
       }
+    }
+  }
+
+  // 🔹 Responsive Design
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    padding: 40px;
+
+    .contacts-info,
+    .contact-form {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 30px;
+
+    .contacts-info h2 {
+      font-size: 26px;
+    }
+
+    .contact-form h3 {
+      font-size: 22px;
+    }
+
+    .form-group label {
+      font-size: 15px;
+    }
+
+    input,
+    textarea {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px;
+
+    .contacts-info p,
+    .contact-details p {
+      font-size: 14px;
+    }
+
+    .contact-form button {
+      width: 100%;
     }
   }
 }

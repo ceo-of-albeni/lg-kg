@@ -121,14 +121,15 @@
 
 .home-banner {
   position: relative;
-  width: 99vw;
+  width: 100%;
+  // max-width: 1400px;
   height: 70vh;
   background-image: url("https://www.lg.com/ua/images/business/multi-v-5/D01_global-multiv5-hero-1-d.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;
-  margin-bottom: 80px;
+  margin: 40px auto 40px auto;
 
   .overlay {
     position: absolute;
