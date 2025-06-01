@@ -132,6 +132,15 @@ const AuthContextProvider = ({ children }) => {
     }
   }
 
+  async function resetPassword(newObj) {
+    try {
+      const res = await axios.post(`${API}/auth/password/reset/`, newObj);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <authContext.Provider
       value={{
@@ -149,6 +158,7 @@ const AuthContextProvider = ({ children }) => {
         setCurrentUser,
         handleLogin,
         editUserInfo,
+        resetPassword,
       }}>
       {children}
     </authContext.Provider>

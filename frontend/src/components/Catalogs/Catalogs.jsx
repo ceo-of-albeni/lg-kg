@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Catalogs.scss";
+import { productsContext } from "../../contexts/productsContext";
+import { useNavigate } from "react-router-dom";
 
 const Catalogs = () => {
-  const catalogs = [
+  const navigate = useNavigate();
+  const { getCatalogs, catalogs } = useContext(productsContext);
+  const catalogs1 = [
     {
       id: 1,
       title: "Сплит и Мульти сплит 2024",
@@ -36,7 +40,7 @@ const Catalogs = () => {
         продукции по всем системам VRF, сплит системам и чиллерам.
       </p>
       <div className="catalogs-container">
-        {catalogs.map((catalog) => (
+        {catalogs1.map((catalog) => (
           <div key={catalog.id} className="catalog-card">
             <img
               src={catalog.image}
@@ -47,7 +51,9 @@ const Catalogs = () => {
           </div>
         ))}
       </div>
-      <button className="view-all-button">Посмотреть все</button>
+      <button onClick={() => navigate("/catalogs")} className="view-all-button">
+        Посмотреть все
+      </button>
     </div>
   );
 };

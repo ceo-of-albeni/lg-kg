@@ -6,8 +6,6 @@ import NewsPage from "./pages/NewsPage/NewsPage";
 import CasesPage from "./pages/CasesPage/CasesPage";
 import CasesDetailedPage from "./pages/CasesDetailedPage/CasesDetailedPage";
 import NewsDetailedPage from "./pages/NewsDetailedPage/NewsDetailedPage";
-import CategoriesCard from "./components/CategoriesCard/CategoriesCard";
-import ProductPage from "./pages/ProductsPage/ProductsPage";
 import ProductDetailedPage from "./pages/ProductDetailedPage/ProductDetailedPage";
 import ProductsPage from "./pages/ProductsPage/ProductsPage";
 import UserPage from "./pages/UserPage/UserPage";
@@ -15,6 +13,7 @@ import AdminPage from "./pages/AdminPage/AdminPage";
 import CategoriesPage from "./pages/CategoriesPage/CategoriesPage";
 import TypesPage from "./pages/TypesPage/TypesPage";
 import ModelPage from "./pages/ModelPage/ModelPage";
+import CatalogsPage from "./pages/CatalogsPage/CatalogsPage";
 
 const Routing = () => {
   const PUBLIC_ROUTES = [
@@ -82,6 +81,11 @@ const Routing = () => {
       link: "/model",
       element: <ModelPage />,
       id: 13,
+    },
+    {
+      link: "/catalogs",
+      element: <CatalogsPage />,
+      id: 14,
     },
   ];
   return (

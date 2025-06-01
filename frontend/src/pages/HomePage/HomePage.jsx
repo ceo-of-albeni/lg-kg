@@ -16,7 +16,7 @@ const HomePage = () => {
         />
       </div>
       <div className="container">
-        <h1>Отраслевые решения</h1>
+        <h2>Отраслевые решения</h2>
         <p>
           LG предлагает оптимизированные решения HVAC для всех климатических
           потребностей,
@@ -28,7 +28,7 @@ const HomePage = () => {
           <HomeCards />
         </div>
         <div className="categories">
-          <h1>Продукция</h1>
+          <h2>Продукция</h2>
           <CategoriesCard />
         </div>
         <div>

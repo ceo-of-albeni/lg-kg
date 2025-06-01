@@ -126,3 +126,61 @@ button.disabled-button {
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 1024px) {
+  .modal-content {
+    max-width: 700px;
+    padding: 16px;
+    h2 {
+      font-size: 28px;
+    }
+
+    label {
+      font-size: 18px !important;
+    }
+
+    input {
+      font-size: 18px;
+    }
+
+    button {
+      font-size: 20px;
+      padding: 10px;
+    }
+  }
+
+  .close-button {
+    font-size: 20px;
+  }
+
+  .error-message {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 16px;
+    h2 {
+      font-size: 18px;
+    }
+
+    label,
+    input {
+      font-size: 13px;
+    }
+
+    button {
+      font-size: 15px;
+      padding: 10px;
+    }
+  }
+
+  .close-button {
+    font-size: 18px;
+  }
+
+  .error-message {
+    font-size: 13px;
+  }
+}
