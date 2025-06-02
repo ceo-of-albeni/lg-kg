@@ -229,3 +229,5 @@ docker-compose.staging.yml
 
 Thumbs.db
 
+frontend/node_modules
+frontend/package-lock.json
