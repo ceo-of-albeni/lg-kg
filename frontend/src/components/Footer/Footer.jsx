@@ -31,9 +31,9 @@ const Footer = () => {
           <DialogContentText id="alert-dialog-slide-description">
             Адрес: Тоголок Молдо, 40
             <br />
-            Номер: +996 555 820 000
+            Номер: +996 990 099 010
             <br />
-            Почта: polytech@gmail.com
+            {/* Почта: polytechnology@gmail.com */}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

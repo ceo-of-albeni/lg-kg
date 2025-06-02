@@ -8,6 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999; // ✅ Ensures it's on top of everything
 }
 
 .modal-content {
@@ -17,6 +18,8 @@
   width: 300px;
   text-align: center;
   position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
 
   h2 {
     margin-bottom: 15px;
@@ -101,12 +104,67 @@
   color: #b30021;
   text-align: right;
   width: 100%;
-  margin: -10px 0 15px 0;
+  margin: -10px 0 5px 0;
   cursor: pointer;
   transition: color 0.3s;
 
   &:hover {
     color: #90001a;
     text-decoration: underline;
+  }
+}
+
+@media (max-width: 1024px) {
+  .modal-content {
+    h2 {
+      font-size: 28px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 90%;
+    padding: 16px;
+
+    h2 {
+      font-size: 20px;
+    }
+
+    label {
+      font-size: 13px;
+    }
+
+    input {
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    button {
+      font-size: 15px;
+      padding: 12px;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  .forgot-password {
+    font-size: 16px;
+  }
+
+  .signup-text {
+    font-size: 16px;
+
+    span {
+      font-size: 16px;
+    }
+  }
+
+  .close-button {
+    font-size: 22px;
+    top: 8px;
+    right: 10px;
   }
 }

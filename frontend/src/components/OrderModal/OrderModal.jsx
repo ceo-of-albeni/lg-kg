@@ -33,6 +33,7 @@ const OrderModal = ({ open, onClose, product }) => {
     odu_placing: "",
     accessories: "",
     remarks: "",
+    file_link: "",
   });
 
   const [showMore, setShowMore] = useState(false);
@@ -53,6 +54,12 @@ const OrderModal = ({ open, onClose, product }) => {
   };
 
   const handleSubmit = () => {
+    if (!form.name || !form.phone) {
+      alert("Пожалуйста, заполните обязательные поля: имя и телефон.");
+      return;
+    }
+
+    postOrder(form);
     onClose();
   };
 
@@ -99,7 +106,7 @@ const OrderModal = ({ open, onClose, product }) => {
           rows={3}
           onChange={handleChange}
         />
-
+        {/* 
         <FormControlLabel
           control={
             <Checkbox
@@ -119,7 +126,7 @@ const OrderModal = ({ open, onClose, product }) => {
               </a>
             </span>
           }
-        />
+        /> */}
 
         <Button
           onClick={() => setShowMore(!showMore)}
@@ -144,6 +151,7 @@ const OrderModal = ({ open, onClose, product }) => {
               ["piping_type", "Тип трубопровода"],
               ["odu_placing", "Размещение наружного блока"],
               ["accessories", "Аксессуары"],
+              ["file_link", "Ссылка на PDF или DWG файлы"],
               ["remarks", "Доп. замечания"],
             ].map(([name, label]) => (
               <TextField

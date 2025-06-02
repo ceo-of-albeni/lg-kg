@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./ContactsPage.scss";
 import axios from "axios";
-
-const API = "http://localhost:8000"; // your JSON server base URL
+import { productsContext } from "../../contexts/productsContext";
 
 const ContactsPage = () => {
+  const { postRequestFromContacts } = useContext(productsContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,26 +18,12 @@ const ContactsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      // Get existing messages
-      const res = await axios.get(`${API}/contacts_message`);
-      const messages = res.data;
-
-      // Calculate next ID
-      const nextId =
-        messages.length > 0 ? Math.max(...messages.map((m) => m.id)) + 1 : 1;
-
-      const newMessage = { ...formData, id: nextId };
-
-      // Post new message with custom ID
-      await axios.post(`${API}/contacts_message`, newMessage);
-
-      alert("Ваше сообщение успешно отправлено!");
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error("Ошибка при отправке сообщения:", error);
-      alert("Произошла ошибка. Попробуйте еще раз.");
-    }
+    postRequestFromContacts(formData);
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+    });
   };
 
   return (
@@ -46,14 +32,14 @@ const ContactsPage = () => {
         <h2>Контакты</h2>
         <p>Если у вас есть вопросы, не стесняйтесь обращаться!</p>
         <div className="contact-details">
-          <p>
+          {/* <p>
             <strong>Email:</strong> contact@company.com
+          </p> */}
+          <p>
+            <strong>Телефон:</strong> +996 990 099 010
           </p>
           <p>
-            <strong>Телефон:</strong> +123 456 7890
-          </p>
-          <p>
-            <strong>Адрес:</strong> ул. Примерная, 1, Бишкек, Кыргызстан
+            <strong>Адрес:</strong> Тоголок Молдо, 40, Бишкек
           </p>
         </div>
       </div>

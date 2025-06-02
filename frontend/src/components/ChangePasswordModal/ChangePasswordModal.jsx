@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./ChangePasswordModal.scss";
+import { authContext } from "../../contexts/authContext";
 
 const ChangePasswordModal = ({ closeModal }) => {
+  const { resetPassword } = useContext(authContext);
   const [email, setEmail] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // TODO: hook this into your actual password reset logic
-    console.log("Password reset requested for:", email);
+    let newObj = {
+      email,
+    };
+    resetPassword(newObj);
     alert(`Инструкция по сбросу пароля отправлена на ${email}`);
     closeModal();
   };
@@ -32,7 +36,7 @@ const ChangePasswordModal = ({ closeModal }) => {
               required
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>Новый пароль:</label>
             <input
               type="password"
@@ -40,7 +44,7 @@ const ChangePasswordModal = ({ closeModal }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </div>
+          </div> */}
           <button type="submit">Отправить</button>
         </form>
       </div>

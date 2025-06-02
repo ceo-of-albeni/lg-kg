@@ -20,6 +20,7 @@ function reducer(state = INIT_STATE, action) {
   }
 }
 
+// const API = "https://lg.sytes.net";
 const API = "http://127.0.0.1:8000";
 
 const AuthContextProvider = ({ children }) => {
@@ -30,7 +31,6 @@ const AuthContextProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  // Later in useEffect or after login, you can check:
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) setCurrentUser(JSON.parse(storedUser));
@@ -47,23 +47,28 @@ const AuthContextProvider = ({ children }) => {
       console.log(err);
     }
   }
+  const API = "http://127.0.0.1:8000";
+  // https://lg.sytes.net
 
-  async function handleRegister(newObj) {
+  async function handleRegistration(newObj) {
     try {
-      const res = await axios.post(
-        `http://127.0.0.1:8000/auth/register/`,
-        newObj
-      );
+      const res = await axios.post(`${API}/auth/registration/`, newObj);
       console.log("User created:", res.data);
+      return { success: true };
     } catch (err) {
-      setError(true);
       if (err.response) {
-        console.error("Error:", err.response.data);
+        console.error("Error:", err);
+        return { success: false, errors: err.response.data };
       } else {
         console.error("Unknown error:", err);
+        return {
+          success: false,
+          errors: { general: "Unknown error occurred." },
+        };
       }
     }
   }
+
   async function handleLogin(newObj, email) {
     try {
       const res = await axios.post(`${API}/auth/login`, newObj);
@@ -84,13 +89,9 @@ const AuthContextProvider = ({ children }) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("tokens"));
       const refreshToken = JSON.parse(localStorage.getItem("tokens_refresh"));
-
-      // Build request body
       const body = {
         refresh: refreshToken,
       };
-
-      // Set Authorization header (optional but good practice)
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -98,8 +99,6 @@ const AuthContextProvider = ({ children }) => {
       };
 
       await axios.post(`${API}/auth/logout`, body, config);
-
-      // Clear localStorage and reset state
       localStorage.removeItem("tokens");
       localStorage.removeItem("tokens_refresh");
       localStorage.removeItem("email");
@@ -133,6 +132,15 @@ const AuthContextProvider = ({ children }) => {
     }
   }
 
+  async function resetPassword(newObj) {
+    try {
+      const res = await axios.post(`${API}/auth/password/reset/`, newObj);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <authContext.Provider
       value={{
@@ -141,7 +149,7 @@ const AuthContextProvider = ({ children }) => {
         users: state.users,
         oneUser: state.oneUser,
 
-        handleRegister,
+        handleRegistration,
         setError,
         handleLogin,
         getOneUser,
@@ -150,6 +158,7 @@ const AuthContextProvider = ({ children }) => {
         setCurrentUser,
         handleLogin,
         editUserInfo,
+        resetPassword,
       }}>
       {children}
     </authContext.Provider>

@@ -6,10 +6,13 @@
   box-sizing: border-box;
   max-width: 1400px;
   margin: 80px auto;
+  margin-top: 40px;
   padding: 0 30px;
 
-  h1 {
-    font-size: clamp(28px, 4vw, 44px);
+  h2 {
+    // font-size: clamp(28px, 4vw, 44px);
+    font-size: 44px;
+    font-weight: bold;
     text-align: center;
     margin-bottom: 10px;
   }
@@ -27,6 +30,7 @@
     margin: 40px auto;
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     gap: 20px;
     width: 100%;
@@ -54,7 +58,7 @@
     padding: 0 20px;
   }
 
-  h1 {
+  h2 {
     font-size: 36px;
   }
 
@@ -71,7 +75,7 @@
     padding: 0 15px;
   }
 
-  h1 {
+  h2 {
     font-size: 28px;
   }
 
@@ -91,7 +95,7 @@
 }
 
 @media (max-width: 480px) {
-  h1 {
+  h2 {
     font-size: 24px;
   }
 
@@ -114,5 +118,36 @@
     width: 100%;
     height: auto;
     display: block;
+  }
+}
+
+.home-banner {
+  position: relative;
+  width: 100%;
+  // max-width: 1400px;
+  height: 70vh;
+  background-image: url("https://www.lg.com/ua/images/business/multi-v-5/D01_global-multiv5-hero-1-d.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  margin: 40px auto 40px auto;
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5); // dark filter
+    z-index: 1;
+  }
+
+  .banner-logo {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 120px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
   }
 }

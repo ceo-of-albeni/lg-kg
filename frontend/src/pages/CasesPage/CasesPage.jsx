@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { productsContext } from "../../contexts/productsContext";
 
-const API = "http://localhost:8000";
-
 const CasesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const casesPerPage = 9;

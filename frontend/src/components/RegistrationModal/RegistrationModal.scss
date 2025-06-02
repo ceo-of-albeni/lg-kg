@@ -74,3 +74,113 @@
     color: #b30021;
   }
 }
+
+input.error-input {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+input.error-input {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+button.disabled-button {
+  background: #ccc !important;
+  cursor: not-allowed !important;
+  color: #666;
+}
+
+.spinner-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #333;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1024px) {
+  .modal-content {
+    max-width: 700px;
+    padding: 16px;
+    h2 {
+      font-size: 28px;
+    }
+
+    label {
+      font-size: 18px !important;
+    }
+
+    input {
+      font-size: 18px;
+    }
+
+    button {
+      font-size: 20px;
+      padding: 10px;
+    }
+  }
+
+  .close-button {
+    font-size: 20px;
+  }
+
+  .error-message {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 16px;
+    h2 {
+      font-size: 18px;
+    }
+
+    label,
+    input {
+      font-size: 13px;
+    }
+
+    button {
+      font-size: 15px;
+      padding: 10px;
+    }
+  }
+
+  .close-button {
+    font-size: 18px;
+  }
+
+  .error-message {
+    font-size: 13px;
+  }
+}

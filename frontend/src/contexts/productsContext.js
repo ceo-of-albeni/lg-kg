@@ -1,6 +1,5 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 export const productsContext = React.createContext();
 
@@ -13,6 +12,7 @@ const INIT_STATE = {
   oneNews: [],
   orders: [],
   oneOrder: [],
+  catalogs: [],
 };
 
 function reducer(state = INIT_STATE, action) {
@@ -33,6 +33,8 @@ function reducer(state = INIT_STATE, action) {
       return { ...state, orders: action.payload };
     case "GET_ONE_ORDER":
       return { ...state, oneOrder: action.payload };
+    case "GET_CATALOGS":
+      return { ...state, catalogs: action.payload };
     default:
       return state;
   }
@@ -43,6 +45,7 @@ const ProductsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
   const API = "http://127.0.0.1:8000";
+  // const API = "https://lg.sytes.net";
 
   async function getProducts() {
     const { data } = await axios(`${API}/products`);
@@ -137,16 +140,29 @@ const ProductsContextProvider = ({ children }) => {
 
   async function postOrder(newObj) {
     try {
-      const res = await axios.post(`${API}/orders`, newObj);
-      console.log("Order created:", res.data);
+      const res = await axios.post(`${API}/orders/`, newObj);
+      console.log(res);
     } catch (err) {
-      setError(true);
-      if (err.response) {
-        console.error("Error:", err.response.data);
-      } else {
-        console.error("Unknown error:", err);
-      }
+      console.log(err);
     }
+  }
+
+  async function postRequestFromContacts(formData) {
+    try {
+      const res = await axios.post(`${API}/contacts/`, formData);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getCatalogs() {
+    const { data } = await axios(`${API}/catalogs`);
+    dispatch({
+      type: "GET_CATALOGS",
+      payload: data,
+    });
+    console.log(data);
   }
 
   return (
@@ -160,8 +176,10 @@ const ProductsContextProvider = ({ children }) => {
         news: state.news,
         oneOrder: state.oneOrder,
         orders: state.orders,
-
+        catalogs: state.catalogs,
         error,
+
+        getCatalogs,
         getNews,
         getOneNews,
         getCases,
@@ -172,6 +190,7 @@ const ProductsContextProvider = ({ children }) => {
         getOrders,
         getOneOrder,
         postOrder,
+        postRequestFromContacts,
       }}>
       {children}
     </productsContext.Provider>
