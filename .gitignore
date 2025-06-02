@@ -209,6 +209,7 @@ cython_debug/
 
 # Other
 docker-compose.staging.yml
+.vscode
 
 *.pyc
 
