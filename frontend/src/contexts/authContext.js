@@ -50,20 +50,39 @@ const AuthContextProvider = ({ children }) => {
   const API = "http://127.0.0.1:8000";
   // https://lg.sytes.net
 
+  // async function handleRegistration(newObj) {
+  //   try {
+  //     const res = await axios.post(`${API}/auth/registration/`, newObj);
+  //     console.log("User created:", res.data);
+  //     return { success: true };
+  //   } catch (err) {
+  //     if (err.response) {
+  //       console.error("Error:", err);
+  //       return { success: false, errors: err.response.data };
+  //     } else {
+  //       console.error("Unknown error:", err);
+  //       return {
+  //         success: false,
+  //         errors: { general: "Unknown error occurred." },
+  //       };
+  //     }
+  //   }
+  // }
   async function handleRegistration(newObj) {
     try {
       const res = await axios.post(`${API}/auth/registration/`, newObj);
       console.log("User created:", res.data);
-      return { success: true };
+
+      // Expecting response: { detail: "Verification e-mail sent." }
+      return { success: true, message: res.data.detail || "Подтвердите email" };
     } catch (err) {
       if (err.response) {
         console.error("Error:", err);
         return { success: false, errors: err.response.data };
       } else {
-        console.error("Unknown error:", err);
         return {
           success: false,
-          errors: { general: "Unknown error occurred." },
+          errors: { general: "Неизвестная ошибка при регистрации." },
         };
       }
     }

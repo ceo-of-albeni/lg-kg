@@ -22,10 +22,20 @@ const TypesPage = () => {
   }, []); //selectedCategory, products
 
   return (
-    <div className="types_container">
-      <h1>Типы продукции</h1>
-      <TypesCard types={types} />
-    </div>
+    <>
+      <div className="products-banner">
+        <div className="overlay" />
+        <img
+          src="https://www.binaryversion.pt/wp-content/uploads/lg.png"
+          alt="LG Logo"
+          className="banner-logo"
+        />
+      </div>
+      <div className="types_container">
+        <h1>Типы продукции</h1>
+        <TypesCard types={types} />
+      </div>
+    </>
   );
 };
 
