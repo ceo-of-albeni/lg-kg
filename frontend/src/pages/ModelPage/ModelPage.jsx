@@ -29,14 +29,24 @@ const ModelPage = () => {
   }, []); //selectedCategory, selectedType, products
 
   return (
-    <div className="types_container">
-      <h1>Модели продукции</h1>
-      {filteredModels.length > 0 ? (
-        <ModelsCard models={filteredModels} />
-      ) : (
-        <p>No models found for the selected category and type.</p>
-      )}
-    </div>
+    <>
+      <div className="products-banner">
+        <div className="overlay" />
+        <img
+          src="https://www.binaryversion.pt/wp-content/uploads/lg.png"
+          alt="LG Logo"
+          className="banner-logo"
+        />
+      </div>
+      <div className="types_container">
+        <h1>Модели продукции</h1>
+        {filteredModels.length > 0 ? (
+          <ModelsCard models={filteredModels} />
+        ) : (
+          <p>No models found for the selected category and type.</p>
+        )}
+      </div>
+    </>
   );
 };
 

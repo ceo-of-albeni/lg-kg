@@ -60,34 +60,44 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className={styles.container}>
-      <Typography variant="h4" className={styles.pageTitle}>
-        Вся линейка продукции
-      </Typography>
-
-      {!filteredProducts || filteredProducts.length === 0 ? (
-        <Typography align="center">Загрузка...</Typography>
-      ) : (
-        <div className={styles.grid}>
-          {currentData().map((product) => (
-            <ProductCard
-              key={product.slug}
-              product={product}
-              onOrderClick={() => handleOrderClick(product)}
-            />
-          ))}
-        </div>
-      )}
-
-      <div className={styles.paginationWrapper}>
-        <Pagination count={count} page={page} onChange={handlePage} />
+    <>
+      <div className="products-banner">
+        <div className="overlay" />
+        <img
+          src="https://www.binaryversion.pt/wp-content/uploads/lg.png"
+          alt="LG Logo"
+          className="banner-logo"
+        />
       </div>
+      <div className={styles.container}>
+        <Typography variant="h4" className={styles.pageTitle}>
+          Вся линейка продукции
+        </Typography>
 
-      <OrderModal
-        open={modalOpen}
-        onClose={handleCloseModal}
-        product={selectedProduct}
-      />
-    </div>
+        {!filteredProducts || filteredProducts.length === 0 ? (
+          <Typography align="center">Загрузка...</Typography>
+        ) : (
+          <div className={styles.grid}>
+            {currentData().map((product) => (
+              <ProductCard
+                key={product.slug}
+                product={product}
+                onOrderClick={() => handleOrderClick(product)}
+              />
+            ))}
+          </div>
+        )}
+
+        <div className={styles.paginationWrapper}>
+          <Pagination count={count} page={page} onChange={handlePage} />
+        </div>
+
+        <OrderModal
+          open={modalOpen}
+          onClose={handleCloseModal}
+          product={selectedProduct}
+        />
+      </div>
+    </>
   );
 }

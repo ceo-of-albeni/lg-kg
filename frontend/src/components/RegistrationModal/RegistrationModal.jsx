@@ -19,6 +19,7 @@ const RegistrationModal = ({ closeModal }) => {
   const [emailError, setEmailError] = useState("");
   const [passwordConfirmError, setPasswordConfirmError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [touchedFields, setTouchedFields] = useState({
     email: false,
@@ -153,10 +154,15 @@ const RegistrationModal = ({ closeModal }) => {
     };
 
     const result = await handleRegistration(newObj);
-    setIsLoading(false); // <-- Stop loading after response
+    setIsLoading(false);
 
     if (result.success) {
-      closeModal();
+      setSuccessMessage(
+        "✅ Подтвердите ваш email перед входом. Письмо может попасть в папку Спам."
+      );
+      setTimeout(() => {
+        closeModal(); // close after short delay
+      }, 10000);
     } else {
       const errors = result.errors;
 
@@ -185,6 +191,10 @@ const RegistrationModal = ({ closeModal }) => {
           ✕
         </span>
         <h2>Регистрация</h2>
+        {successMessage && (
+          <div className="success-message">{successMessage}</div>
+        )}
+
         <form>
           <div className="form-group">
             <label>Имя:</label>

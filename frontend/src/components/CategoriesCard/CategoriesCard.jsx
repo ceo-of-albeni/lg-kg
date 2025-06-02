@@ -9,6 +9,7 @@ const CategoriesCard = () => {
 
   useEffect(() => {
     getProducts();
+    console.log(products);
   }, []);
 
   const categories = [...new Set(products.map((product) => product.category))];

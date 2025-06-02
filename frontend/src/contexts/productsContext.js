@@ -44,6 +44,7 @@ const ProductsContextProvider = ({ children }) => {
   const [error, setError] = useState(false);
   const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
+  // const API = "http://localhost:8000";
   const API = "http://127.0.0.1:8000";
   // const API = "https://lg.sytes.net";
 

@@ -5,3 +5,34 @@
   flex-direction: column;
   margin: 2rem;
 }
+
+.products-banner {
+  position: relative;
+  width: 100% !important;
+  max-width: 1400px;
+  height: 20vh;
+  background-image: url("https://www.lg.com/ua/images/business/multi-v-5/D01_global-multiv5-hero-1-d.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  margin: 0px auto 0px auto;
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5); // dark filter
+    z-index: 1;
+  }
+
+  .banner-logo {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 120px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
+  }
+}
