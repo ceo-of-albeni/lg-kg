@@ -30,7 +30,7 @@ class Order(models.Model):
     remarks = models.TextField(blank=True, null=True)
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
-    file_link = models.URLField(blank=True, null=True)
+    file_link = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"Order #{self.pk} by {self.name}"
