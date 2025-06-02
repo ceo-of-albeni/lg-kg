@@ -8,7 +8,7 @@ class OrderAdmin(admin.ModelAdmin):
         'id', 'name', 'email', 'phone', 'user', 'project_name',
         'status', 'estimated_realization_date', 'odu_placing'
     )
-    list_filter = ('status', 'odu_placing', 'bulding_type', 'cac_system_type')
+    list_filter = ('status', 'odu_placing', 'building_type', 'cac_system_type')
     search_fields = ('name', 'email', 'phone', 'project_name', 'clicked_product_name')
     readonly_fields = ('file_link',)
 
@@ -19,7 +19,7 @@ class OrderAdmin(admin.ModelAdmin):
         ('Project Details', {
             'fields': (
                 'project_name', 'project_address', 'estimated_realization_date',
-                'bulding_type', 'building_floors', 'cac_system_type', 'cac_idu_type',
+                'building_type', 'building_floors', 'cac_system_type', 'cac_idu_type',
                 'capacity_per_m2', 'piping_type', 'odu_placing'
             )
         }),
