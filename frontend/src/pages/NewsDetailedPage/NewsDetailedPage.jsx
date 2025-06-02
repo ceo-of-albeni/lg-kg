@@ -12,7 +12,6 @@ const NewsDetailedPage = () => {
 
   useEffect(() => {
     getOneNews(id);
-    console.log(oneNews);
   }, []);
 
   if (error) return <div>Новость не найдена.</div>;

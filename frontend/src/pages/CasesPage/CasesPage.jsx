@@ -12,7 +12,6 @@ const CasesPage = () => {
 
   useEffect(() => {
     getCases();
-    console.log(cases);
   }, []);
 
   const indexOfLastCase = currentPage * casesPerPage;

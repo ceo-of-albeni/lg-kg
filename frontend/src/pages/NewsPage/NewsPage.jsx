@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./NewsPage.scss";
-import Logo from "../../images/LG-logo.webp";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { productsContext } from "../../contexts/productsContext";
-
-const API = "http://localhost:8000";
 
 const NewsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +11,6 @@ const NewsPage = () => {
 
   useEffect(() => {
     getNews();
-    console.log(news);
   }, []);
 
   // Calculate indexes for slicing articles

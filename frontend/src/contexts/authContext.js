@@ -1,6 +1,7 @@
 import React, { useState, useReducer, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import authAxios from "./authAxios";
 
 export const authContext = React.createContext();
 
@@ -20,145 +21,132 @@ function reducer(state = INIT_STATE, action) {
   }
 }
 
-// const API = "https://lg.sytes.net";
 const API = "http://127.0.0.1:8000";
 
 const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [error, setError] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
 
   const [state, dispatch] = useReducer(reducer, INIT_STATE);
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) setCurrentUser(JSON.parse(storedUser));
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
+    setAuthLoading(false);
   }, []);
 
-  async function getUsers() {
-    try {
-      const res = await axios(`${API}/users`);
-      dispatch({
-        type: "GET_USERS",
-        payload: res.data,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  const API = "http://127.0.0.1:8000";
-  // https://lg.sytes.net
+  const refreshAccessToken = async () => {
+    const refreshToken = JSON.parse(localStorage.getItem("tokens_refresh"));
+    if (!refreshToken) return null;
 
-  // async function handleRegistration(newObj) {
-  //   try {
-  //     const res = await axios.post(`${API}/auth/registration/`, newObj);
-  //     console.log("User created:", res.data);
-  //     return { success: true };
-  //   } catch (err) {
-  //     if (err.response) {
-  //       console.error("Error:", err);
-  //       return { success: false, errors: err.response.data };
-  //     } else {
-  //       console.error("Unknown error:", err);
-  //       return {
-  //         success: false,
-  //         errors: { general: "Unknown error occurred." },
-  //       };
-  //     }
-  //   }
-  // }
-  async function handleRegistration(newObj) {
+    try {
+      const res = await axios.post(`${API}/auth/token/refresh/`, {
+        refresh: refreshToken,
+      });
+      const newAccessToken = res.data.access;
+      localStorage.setItem("tokens", JSON.stringify(newAccessToken));
+      return newAccessToken;
+    } catch (err) {
+      console.error("Failed to refresh access token:", err);
+      return null;
+    }
+  };
+
+  const getUsers = async () => {
+    try {
+      const res = await authAxios(`${API}/users`);
+      dispatch({ type: "GET_USERS", payload: res.data });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleRegistration = async (newObj) => {
     try {
       const res = await axios.post(`${API}/auth/registration/`, newObj);
-      console.log("User created:", res.data);
-
-      // Expecting response: { detail: "Verification e-mail sent." }
       return { success: true, message: res.data.detail || "Подтвердите email" };
     } catch (err) {
       if (err.response) {
-        console.error("Error:", err);
         return { success: false, errors: err.response.data };
-      } else {
-        return {
-          success: false,
-          errors: { general: "Неизвестная ошибка при регистрации." },
-        };
       }
+      return {
+        success: false,
+        errors: { general: "Неизвестная ошибка при регистрации." },
+      };
     }
-  }
+  };
 
-  async function handleLogin(newObj, email) {
+  const handleLogin = async (newObj, email) => {
     try {
       const res = await axios.post(`${API}/auth/login`, newObj);
       localStorage.setItem("tokens", JSON.stringify(res.data.access));
       localStorage.setItem("tokens_refresh", JSON.stringify(res.data.refresh));
       localStorage.setItem("email", email);
-      navigate("/");
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       setCurrentUser(res.data.user);
-      console.log();
+      navigate("/");
     } catch (err) {
       alert("Incorrect email or password!");
-      console.log(err);
       setError(err);
+      console.error(err);
     }
-  }
+  };
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     try {
-      const accessToken = JSON.parse(localStorage.getItem("tokens"));
+      let accessToken = JSON.parse(localStorage.getItem("tokens"));
       const refreshToken = JSON.parse(localStorage.getItem("tokens_refresh"));
-      const body = {
-        refresh: refreshToken,
-      };
+
+      if (!accessToken) {
+        accessToken = await refreshAccessToken();
+      }
+
       const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: { Authorization: `Bearer ${accessToken}` },
       };
 
-      await axios.post(`${API}/auth/logout`, body, config);
+      await axios.post(`${API}/auth/logout`, { refresh: refreshToken }, config);
+    } catch (err) {
+      console.warn("Logout failed, clearing local data.");
+    } finally {
       localStorage.removeItem("tokens");
       localStorage.removeItem("tokens_refresh");
       localStorage.removeItem("email");
-
+      localStorage.removeItem("user");
       setCurrentUser(null);
       navigate("/");
-    } catch (err) {
-      console.error("Logout failed:", err);
     }
-  }
+  };
 
-  async function editUserInfo(formData, id) {
+  const editUserInfo = async (formData, id) => {
     try {
       const res = await axios.patch(`${API}/users/${id}`, formData);
       console.log("User updated:", res.data);
     } catch (err) {
       console.error("Error updating user:", err);
     }
-  }
+  };
 
-  async function getOneUser(id) {
+  const getOneUser = async (id) => {
     try {
-      const res = await axios(`${API}/users/${id}`);
-      dispatch({
-        type: "GET_ONE_USER",
-        payload: res.data,
-      });
-      console.log(res.data);
+      const res = await authAxios(`${API}/users/${id}`);
+      dispatch({ type: "GET_ONE_USER", payload: res.data });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
-  }
+  };
 
-  async function resetPassword(newObj) {
+  const resetPassword = async (newObj) => {
     try {
-      const res = await axios.post(`${API}/auth/password/reset/`, newObj);
-      console.log(res);
+      await axios.post(`${API}/auth/password/reset/`, newObj);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
-  }
+  };
 
   return (
     <authContext.Provider
@@ -167,17 +155,17 @@ const AuthContextProvider = ({ children }) => {
         error,
         users: state.users,
         oneUser: state.oneUser,
-
+        authLoading,
         handleRegistration,
-        setError,
         handleLogin,
-        getOneUser,
-        getUsers,
         handleLogout,
-        setCurrentUser,
-        handleLogin,
+        getUsers,
+        getOneUser,
         editUserInfo,
         resetPassword,
+        refreshAccessToken,
+        setCurrentUser,
+        setError,
       }}>
       {children}
     </authContext.Provider>

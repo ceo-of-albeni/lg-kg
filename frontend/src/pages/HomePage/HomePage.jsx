@@ -1,12 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 import "./HomePage.scss";
 import HomeCards from "../../components/HomeCards/HomeCards";
 import CategoriesCard from "../../components/CategoriesCard/CategoriesCard";
 import Catalogs from "../../components/Catalogs/Catalogs";
 
 const HomePage = () => {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("verified") === "true") {
+      setOpenSnackbar(true);
+      // Optionally remove the param from URL without reload
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
   return (
     <>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Ваш email подтвержден, теперь вы можете войти.
+        </Alert>
+      </Snackbar>
+
       <div className="home-banner">
         <div className="overlay" />
         <img
@@ -46,4 +77,5 @@ const HomePage = () => {
     </>
   );
 };
+
 export default HomePage;

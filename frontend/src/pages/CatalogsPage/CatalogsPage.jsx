@@ -9,7 +9,6 @@ const CatalogsPage = () => {
 
   useEffect(() => {
     getCatalogs();
-    console.log(catalogs);
   }, []);
 
   const indexOfLastCatalog = currentPage * catalogsPerPage;

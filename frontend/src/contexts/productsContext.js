@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from "react";
 import axios from "axios";
+import authAxios from "./authAxios";
 
 export const productsContext = React.createContext();
 
@@ -112,23 +113,29 @@ const ProductsContextProvider = ({ children }) => {
 
   async function getOrders() {
     const tokens = JSON.parse(localStorage.getItem("tokens"));
-    const Authorization = `Bearer ${tokens.access_token}`;
+    const Authorization = `Bearer ${tokens}`;
     const config = {
       headers: {
         Authorization,
       },
     };
-    const { data } = await axios(`${API}/orders`, config);
+    const { data } = await authAxios(`${API}/orders`, config);
     dispatch({
       type: "GET_ORDERS",
       payload: data,
     });
-    console.log(data);
   }
 
   async function getOneOrder(id) {
     try {
-      const res = await axios.get(`${API}/orders/${id}`);
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      const Authorization = `Bearer ${tokens}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      const res = await axios.get(`${API}/orders/${id}`, config);
       dispatch({
         type: "GET_ONE_ORDER",
         payload: res.data,
@@ -141,7 +148,14 @@ const ProductsContextProvider = ({ children }) => {
 
   async function postOrder(newObj) {
     try {
-      const res = await axios.post(`${API}/orders/`, newObj);
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      const Authorization = `Bearer ${tokens}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      const res = await axios.post(`${API}/orders/`, newObj, config);
       console.log(res);
     } catch (err) {
       console.log(err);

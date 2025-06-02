@@ -17,12 +17,6 @@ const TypesCard = ({ types }) => {
             key={product.id}
             className="product-card"
             onClick={() => {
-              console.log(
-                "Navigating to:",
-                `/model?category=${encodeURIComponent(
-                  product.category
-                )}&type=${encodeURIComponent(product.type)}`
-              );
               navigate(
                 `/model?category=${encodeURIComponent(
                   product.category

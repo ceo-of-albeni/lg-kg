@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Routing from "./Routing";
 import ProductsContextProvider from "./contexts/productsContext";
-import AuthContextProvider from "./contexts/authContext";
+import AuthContextProvider, { authContext } from "./contexts/authContext";
 import "./main.css";
 
 const App = () => {

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import LoginModal from "../LoginModal/LoginModal";
 import { authContext } from "../../contexts/authContext";
 import { productsContext } from "../../contexts/productsContext"; // import products context
+import { FaBars, FaTimes } from "react-icons/fa"; // Add hamburger and close icons
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const dropdownRef = useRef(null);
   const searchRef = useRef(null);
@@ -76,14 +78,130 @@ const Navbar = () => {
           <img src={Logo} alt="LG Business Solutions" className="logo" />
         </div>
 
-        <ul className="nav-links">
+        {/* Hamburger icon for mobile */}
+        <div
+          className="hamburger"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+        </div>
+
+        {/* Desktop navigation */}
+        <ul className="nav-links desktop">
           <li onClick={() => navigate("/")}>ГЛАВНАЯ</li>
           <li onClick={() => navigate("/categories")}>
             СИСТЕМЫ КОНДИЦИОНИРОВАНИЯ
           </li>
           <li onClick={() => navigate("/contacts")}>КОНТАКТЫ</li>
-          {/* <li onClick={() => navigate("/admin")}>АДМИН</li> */}
         </ul>
+
+        {/* Mobile navigation menu */}
+        <div className={`mobile-menu-wrapper ${mobileMenuOpen ? "open" : ""}`}>
+          <ul className="nav-links mobile">
+            <li
+              onClick={() => {
+                navigate("/");
+                setMobileMenuOpen(false);
+              }}>
+              ГЛАВНАЯ
+            </li>
+            <li
+              onClick={() => {
+                navigate("/categories");
+                setMobileMenuOpen(false);
+              }}>
+              СИСТЕМЫ КОНДИЦИОНИРОВАНИЯ
+            </li>
+            <li
+              onClick={() => {
+                navigate("/contacts");
+                setMobileMenuOpen(false);
+              }}>
+              КОНТАКТЫ
+            </li>
+          </ul>
+
+          <div className="navbar-right mobile">
+            <div className="search-wrapper" ref={searchRef}>
+              <FaSearch
+                className="search-icon"
+                onClick={() => setSearchOpen((prev) => !prev)}
+                title="Поиск продуктов"
+              />
+              {searchOpen && (
+                <div className="search-dropdown">
+                  <input
+                    type="text"
+                    placeholder="Поиск продуктов..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    autoFocus
+                  />
+                  {searchResults.length > 0 && (
+                    <ul className="search-results">
+                      {searchResults.map((product) => (
+                        <li
+                          key={product.pk || product.id}
+                          onClick={() => handleProductClick(product.slug)}>
+                          {product.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {searchTerm && searchResults.length === 0 && (
+                    <div className="no-results">Нет результатов</div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <button
+              className="outline-button"
+              onClick={() => navigate(`/news`)}>
+              Новости
+            </button>
+
+            <button
+              className="outline-button"
+              onClick={() => navigate(`/cases`)}>
+              Кейсы
+            </button>
+
+            {!currentUser ? (
+              <button
+                className="outline-button"
+                onClick={() => setIsModalOpen(true)}>
+                Войти
+              </button>
+            ) : (
+              <div className="user-dropdown" ref={dropdownRef}>
+                <FaUserCircle
+                  className="user-icon"
+                  onClick={() => setDropdownOpen((prev) => !prev)}
+                />
+                {dropdownOpen && (
+                  <div className="dropdown-menu">
+                    <div
+                      className="dropdown-item"
+                      onClick={() => {
+                        goToProfile();
+                        setDropdownOpen(false);
+                      }}>
+                      Мой профиль
+                    </div>
+                    <div
+                      className="dropdown-item"
+                      onClick={() => {
+                        handleLogout();
+                        setDropdownOpen(false);
+                      }}>
+                      Выйти
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
 
         <div className="navbar-right">
           {/* Search icon next to Новости */}

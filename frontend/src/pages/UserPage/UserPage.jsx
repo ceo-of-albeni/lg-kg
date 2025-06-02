@@ -5,28 +5,32 @@ import axios from "axios";
 import { Button } from "@mui/material";
 import { Modal, Box, Typography } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
+import authAxios from "../../contexts/authAxios";
+import { productsContext } from "../../contexts/productsContext";
 
 // const API = "https://lg.sytes.net";
 const API = "http://127.0.0.1:8000";
 
 const UserPage = () => {
-  const {
-    editUserInfo,
-    getOneUser,
-    oneUser = {},
-    currentUser,
-  } = useContext(authContext);
+  const { editUserInfo, getOneUser, oneUser, currentUser } =
+    useContext(authContext);
 
   const [userOrders, setUserOrders] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
+  const { getOrders, orders } = useContext(productsContext);
+
+  useEffect(() => {
+    getOrders();
+    console.log(orders);
+  }, []);
 
   useEffect(() => {
     if (!currentUser && !localStorage.getItem("tokens")) {
       navigate("/");
     }
-  }, [currentUser, navigate]);
+  }, [currentUser]);
 
   useEffect(() => {
     getOneUser(id);
@@ -51,23 +55,6 @@ const UserPage = () => {
       setInn(oneUser.inn || "");
       setBic(oneUser.bic || "");
     }
-  }, [oneUser]);
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.get(`${API}/orders`);
-        const userEmail = localStorage.getItem("email")?.trim().toLowerCase();
-        const filtered = res.data.filter(
-          (order) => order.email?.trim().toLowerCase() === userEmail
-        );
-        setUserOrders(filtered);
-      } catch (error) {
-        console.log("Error fetching orders:", error);
-      }
-    };
-
-    fetchOrders();
   }, [oneUser]);
 
   async function saveChanges() {
@@ -180,12 +167,12 @@ const UserPage = () => {
               <strong>БИК:</strong> {oneUser.bic}
             </p>
 
-            <Button
+            {/* <Button
               variant="contained"
               onClick={() => setIsEditing(true)}
               className="submitButton">
               Редактировать
-            </Button>
+            </Button> */}
           </>
         )}
       </div>
@@ -202,7 +189,7 @@ const UserPage = () => {
             </tr>
           </thead>
           <tbody>
-            {userOrders.map((order, index) => (
+            {orders.map((order, index) => (
               <tr key={`${order.id}-${index}`}>
                 <td>{order.clicked_product_name}</td>
                 <td>{order.comment}</td>
