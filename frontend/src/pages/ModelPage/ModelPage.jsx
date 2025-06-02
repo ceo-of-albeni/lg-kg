@@ -15,15 +15,11 @@ const ModelPage = () => {
   useEffect(() => {
     // Check if products are loaded and selected parameters are available
     if (selectedCategory && selectedType && products.length > 0) {
-      console.log("Selected Category:", selectedCategory);
-      console.log("Selected Type:", selectedType);
-      console.log("All Products:", products);
-
       const models = products.filter(
         (product) =>
-          product.category === selectedCategory && product.type === selectedType
+          product.category.name === selectedCategory &&
+          product.type.name === selectedType
       );
-      console.log("Filtered Models:", models);
       setFilteredModels(models);
     }
   }, []); //selectedCategory, selectedType, products

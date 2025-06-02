@@ -52,10 +52,10 @@ const ProductCard = ({ product, onOrderClick }) => {
             onClick={() =>
               navigate(
                 `/products/${product.slug}?category=${encodeURIComponent(
-                  product.category
+                  product.category.name
                 )}&type=${encodeURIComponent(
-                  product.type
-                )}&model=${encodeURIComponent(product.product_model)}`
+                  product.type.name
+                )}&model=${encodeURIComponent(product.product_model.name)}`
               )
             }
             sx={{

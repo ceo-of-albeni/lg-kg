@@ -37,17 +37,19 @@ export default function ProductsPage() {
 
   if (selectedCategory) {
     filteredProducts = filteredProducts.filter(
-      (p) => p.category === selectedCategory
+      (p) => p.category.name === selectedCategory
     );
   }
 
   if (selectedType) {
-    filteredProducts = filteredProducts.filter((p) => p.type === selectedType);
+    filteredProducts = filteredProducts.filter(
+      (p) => p.type.name === selectedType
+    );
   }
 
   if (selectedModel) {
     filteredProducts = filteredProducts.filter(
-      (p) => p.product_model === selectedModel
+      (p) => p.product_model.name === selectedModel
     );
   }
 

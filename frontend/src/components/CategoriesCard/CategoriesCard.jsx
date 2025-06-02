@@ -21,14 +21,14 @@ const CategoriesCard = () => {
             key={index}
             className="product-card"
             onClick={() =>
-              navigate(`/types?category=${encodeURIComponent(category)}`)
+              navigate(`/types?category=${encodeURIComponent(category.name)}`)
             }>
             <img
-              src="https://lg-b2b.ru/local/templates/lg/images/ac/industries/model_6.png" // Static image for now, can be replaced later
+              src={category.image} // Static image for now, can be replaced later
               alt={category}
               className="product-image"
             />
-            <div className="product-title">{category}</div>
+            <div className="product-title">{category.name}</div>
           </div>
         ))}
       </div>

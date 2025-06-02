@@ -71,3 +71,19 @@
     color: #8e002e;
   }
 }
+
+@media (max-width: 860px) {
+  .card {
+    max-width: 400px;
+  }
+
+  .buttons {
+    flex-direction: row;
+    justify-content: center;
+
+    button {
+      width: auto;
+      min-width: 120px;
+    }
+  }
+}

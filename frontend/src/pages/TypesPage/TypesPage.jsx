@@ -15,11 +15,12 @@ const TypesPage = () => {
     if (selectedCategory) {
       // Filter types based on selected category
       const filteredTypes = products.filter(
-        (product) => product.category === selectedCategory
+        (product) => product.category.name === selectedCategory
       );
       setTypes(filteredTypes);
     }
   }, []); //selectedCategory, products
+  console.log(products, types);
 
   return (
     <>

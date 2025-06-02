@@ -14,19 +14,21 @@ const ModelsCard = ({ models }) => {
       <div className="grid-container">
         {models.map((model) => (
           <div
-            key={model.id}
+            key={model.slug}
             className="product-card"
             onClick={() =>
               navigate(
-                `/products?model=${encodeURIComponent(model.product_model)}`
+                `/products?model=${encodeURIComponent(
+                  model.product_model.name
+                )}`
               )
             }>
             <img
-              src={model.image}
-              alt={model.product_model}
+              src={model.product_model.image}
+              alt={model.product_model.name}
               className="product-image"
             />
-            <div className="product-title">{model.product_model}</div>
+            <div className="product-title">{model.product_model.name}</div>
           </div>
         ))}
       </div>

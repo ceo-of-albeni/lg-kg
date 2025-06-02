@@ -17,8 +17,31 @@
   justify-items: start;
 }
 
+/* Pagination container */
 .paginationWrapper {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+}
+
+/* Tablet view */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 30px;
+    justify-items: center;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    margin: 0 auto;
+    justify-items: center;
+  }
+
+  .pageTitle {
+    font-size: 24px;
+  }
 }
